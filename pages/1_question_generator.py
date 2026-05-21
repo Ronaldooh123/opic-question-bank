@@ -1,3 +1,10 @@
+import html
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+
+from style import apply_global_style
 import streamlit as st
 import pandas as pd
 from io import BytesIO
@@ -11,6 +18,7 @@ st.set_page_config(
     page_title="OPIc 문제 생성",
     layout="wide",
 )
+apply_global_style()
 
 DATA_PATH = Path("question_bank.csv")
 
@@ -213,13 +221,24 @@ def make_card(no, section, topic, topic_kr, question_type, question_en, vocab_10
 
 
 def render_question_card(card):
+    question_no = html.escape(str(card["no"]))
+    topic_kr = html.escape(str(card["topic_kr"]))
+    question_type = html.escape(str(card["question_type"]))
+    section = html.escape(str(card["section"]))
+    question_en = html.escape(str(card["question_en"]))
+
+    st.markdown(
+        f"""
+        <div class="question-card">
+            <div class="question-title">Q{question_no}. {topic_kr}</div>
+            <div class="question-meta">{section} · {question_type}</div>
+            <div class="question-text">{question_en}</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
     with st.container(border=True):
-        st.markdown(f"### Q{card['no']}. {card['topic_kr']} / {card['question_type']}")
-        st.caption(card["section"])
-
-        st.markdown("**Question**")
-        st.write(card["question_en"])
-
         col1, col2 = st.columns(2)
 
         with col1:

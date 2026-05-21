@@ -1,3 +1,9 @@
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+
+from style import apply_global_style
 import streamlit as st
 import pandas as pd
 from pathlib import Path
@@ -6,6 +12,7 @@ st.set_page_config(
     page_title="문제은행 미리보기",
     layout="wide",
 )
+apply_global_style()
 
 DATA_PATH = Path("question_bank.csv")
 

@@ -1,9 +1,16 @@
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+
+from style import apply_global_style
 import streamlit as st
 
 st.set_page_config(
     page_title="서비스 소개",
     layout="wide",
 )
+apply_global_style()
 
 st.title("서비스 소개")
 
